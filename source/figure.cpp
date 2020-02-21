@@ -84,7 +84,3 @@ void Figure::rotate() {
     }
 }
 
-
-
-
-

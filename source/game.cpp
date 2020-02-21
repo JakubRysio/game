@@ -29,8 +29,9 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
         this->isRunning = true;
     }
-    player=Figure(renderer,"../../media/sprites/mChar.png",200,160,30,15, 3);
+    player=Figure(renderer,"../../media/sprites/mChar.png",200,170,30,15, 3);
 }
+
 
 void Game::handleEvents(){
     SDL_Event event;

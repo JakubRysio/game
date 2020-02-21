@@ -12,7 +12,6 @@ public:
 
     void update();
     void render();
-
     int angle;
     int mX, mY;
 private:

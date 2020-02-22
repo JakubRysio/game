@@ -7,17 +7,16 @@
 class Figure {
 public:
     Figure();
-    Figure(SDL_Renderer *rendering, const char *texturePath,int x , int y, int w, int h, int animFrames);
+    Figure(const char *texturePath,int x , int y, int w, int h, int animFrames);
     ~Figure();
 
     void update();
     void render();
     int angle;
     int mX, mY;
-private:
+protected:
     void animation();
     SDL_Rect srcR, desR;
-    SDL_Renderer* renderer;
     SDL_Texture* texture;
     int xPos, yPos, w,h;
     double currentFrame;

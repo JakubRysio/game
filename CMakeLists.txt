@@ -12,6 +12,6 @@ include_directories(/source)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(game source/main.cpp source/game.cpp source/headers/game.h source/figure.cpp source/headers/figure.h)
+add_executable(game source/main.cpp source/game.cpp source/headers/game.h source/figure.cpp source/headers/figure.h source/player.cpp source/headers/player.h source/Map.cpp source/headers/Map.h)
 
 target_link_libraries(game ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} -lmingw32 -lSDL2main -lSDL2 -mwindows)

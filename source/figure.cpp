@@ -4,17 +4,13 @@
 #include <cmath>
 
 
-Figure::Figure() {
-}
+Figure::Figure() = default;
 
-Figure::Figure( const char *texturePath,int x, int y, int w, int h, int animFrames) {
+Figure::Figure( const char *texturePath,int x, int y, int w, int h, int animFrames, float walkSpeed) {
     texture=Game::loadTexture(texturePath);
 
     this->animFrame=animFrames;
     this->currentFrame=0;
-
-    this->mX=0;
-    this->mY=0;
 
     this->xPos=x;
     this->yPos=y;
@@ -29,21 +25,18 @@ Figure::Figure( const char *texturePath,int x, int y, int w, int h, int animFram
     this->srcR.x=0;
     this->srcR.y=0;
 
-    desR.w=srcR.w*3;
-    desR.h=srcR.h*3;
+    this->desR.w=this->srcR.w*3;
+    this->desR.h=this->srcR.h*3;
+
+    this->walkSpeed=walkSpeed;
 }
 
-Figure::~Figure() {
-    //usuwanie obiektu z jakiegos kontenera na widoczne obiekty itd?
-}
+Figure::~Figure() = default; //usuwanie obiektu z jakiegos kontenera na widoczne obiekty itd?
 
 void Figure::update() {
-    this->animation();
 
     this->desR.x= xPos;
     this->desR.y= yPos;
-
-    rotate();
 }
 
 void Figure::render() {
@@ -58,7 +51,44 @@ void Figure::animation() {
     this->srcR.x=30*floor(currentFrame);
 }
 
-void Figure::rotate() {
+void Figure::rotate(int x, int y) {
+    double xPosA=this->xPos+(this->desR.w/2);
+    double yPosA=this->yPos+(this->desR.h/2);
+    double vecX = abs(xPosA - x);
+    double vecY = abs(yPosA - y);
 
+    double absVec = sqrt((vecX * vecX) + (vecY * vecY));
+
+    double arcCos = (yPosA * vecY) / (yPosA * absVec);
+    double angle90= acos(arcCos) * 180 / 3.14;
+    if(xPosA<=x&&yPosA>=y) {
+        angle = angle90;
+    }else if(xPosA<=x&&yPosA<=y) {
+        angle = 180 - angle90;
+    }else if(xPosA>=x&&yPosA<=y) {
+        angle = angle90 + 180;
+    }else if(xPosA>=x&&yPosA>=y) {
+        angle = 360 - angle90;
+    }
+}
+
+void Figure::moveUp() {
+    yPos-=walkSpeed;
+    this->animation();
+}
+
+void Figure::moveDown() {
+    yPos+=walkSpeed;
+    this->animation();
+}
+
+void Figure::moveLeft() {
+    xPos-=walkSpeed;
+    this->animation();
+}
+
+void Figure::moveRight() {
+    xPos+=walkSpeed;
+    this->animation();
 }
 

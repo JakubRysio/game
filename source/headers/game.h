@@ -5,6 +5,8 @@
 #include "figure.h"
 #include "player.h"
 #include "Map.h"
+#include "Input.h"
+#include "enemy.h"
 
 class Game {
 public:
@@ -22,10 +24,15 @@ public:
     static SDL_Renderer* renderer;
     static SDL_Texture* loadTexture(const char* filename);
     static void simpleDraw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest);
+
+    int mX, mY;
 private:
+    SDL_Event event;
     bool isRunning;
     SDL_Window *window;
     Player* player;
     Map* map;
+    Input* input;
+    Enemy* enemy;
 };
 #endif

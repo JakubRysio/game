@@ -12,9 +12,9 @@ public:
     void drawMap();
 
 private:
-    SDL_Rect src, dest;
+    SDL_Rect src{}, dest{};
     SDL_Texture *dirt, *grass, *water;
-    int matrix[32][18];
+    int matrix[32][18]{};
 };
 
 

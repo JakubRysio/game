@@ -10,8 +10,16 @@ Map::Map() {
     grass = Game::loadTexture("../../media/sprites/grass.png");
     water = Game::loadTexture("../../media/sprites/water.png");
 
-    testMap[20][9]=1;//test
-    testMap[15][12]=2;//test
+    //test
+    for(int i=7; i<32; i++) {
+        for(int j=4; j<11; j++){
+            testMap[i][j]=1;
+        }
+        for(int j=13; j<18; j++){
+            testMap[i][j]=2;
+        }
+    }//test
+
     loadMap(testMap);
 
     src.x = 0;
@@ -25,9 +33,7 @@ Map::Map() {
     dest.y=0;
 }
 
-Map::~Map() {
-
-}
+Map::~Map() = default;
 
 void Map::loadMap(int arr[32][18]) {
     for( int row=0; row< 32; row++){

@@ -4,11 +4,10 @@
 
 SDL_Renderer* Game::renderer= nullptr;
 
-Game::Game() {}
-Game::~Game() {}
+Game::Game() = default;
+Game::~Game() = default;
 
 void Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) {
-
     int flags = 0;
     if (fullscreen) {
         flags = SDL_WINDOW_FULLSCREEN;
@@ -22,38 +21,60 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         //Window created
         }
 
-        this->renderer = SDL_CreateRenderer(this->window, -1, 0);
-        if (this->renderer) {
+        Game::renderer = SDL_CreateRenderer(this->window, -1, 0);
+        if (Game::renderer) {
             SDL_SetRenderDrawColor(renderer, 255,255,255,255);
 //Renderer created
         }
 
         this->isRunning = true;
     }
-    player = new Player("../../media/sprites/mChar.png",200,170,30,15, 3);
+    input = new Input();
+    player = new Player();
     map = new Map();
+    enemy = new Enemy("../../media/sprites/enemy.png",1000,300,30,15, 3, 1);
 }
 
-void Game::handleEvents(){
-    SDL_Event event;
-    while(SDL_PollEvent(&event)) {
-        SDL_GetMouseState(&player->mX, &player->mY);
-        switch (event.type) {
-            case SDL_QUIT:
-                this->isRunning = false;
-                break;
+void Game::handleEvents() {
+    input->beginNewFrame();
+    while (SDL_PollEvent(&event)) {
+        SDL_GetMouseState(&mX, &mY);
+        if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
+            input->keyDownEvent(event);
+        } else if (event.type == SDL_KEYUP) {
+            input->keyUpEvent(event);
         }
+        if (event.type == SDL_QUIT) {
+            this->isRunning = false;
+        }
+    }
+    if(input->isKeyHeld(SDL_SCANCODE_W)){
+        this->player->moveUp();
+    }else if(input->isKeyHeld(SDL_SCANCODE_S)){
+        this->player->moveDown();
+    }
+    if(input->isKeyHeld(SDL_SCANCODE_A)){
+        this->player->moveLeft();
+    }else if(input->isKeyHeld(SDL_SCANCODE_D)){
+        this->player->moveRight();
     }
 }
 
 void Game::update(){
     player->update();
+    enemy->update(player);
 }
 
 void Game::render(){
     SDL_RenderClear(renderer);
     map->drawMap();
+
     player->render();
+    player->rotate(mX,mY);
+
+    enemy->render();
+    enemy->rotate(player->xPos,player->yPos);
+
     SDL_RenderPresent(renderer);
 }
 

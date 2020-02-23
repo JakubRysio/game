@@ -6,11 +6,8 @@
 class Player: public Figure {
 public:
     Player();
-    Player(const char *texturePath,int x , int y, int w, int h, int animFrames);
     ~Player();
-    void update();
-protected:
-    void rotate();
+
 };
 
 #endif

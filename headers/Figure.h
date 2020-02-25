@@ -3,12 +3,20 @@
 
 #include <SDL_render.h>
 #include <string>
-#include "Game.h"
+
+struct Position{
+    int x;
+    int y;
+};
+struct PositionF{
+    float x;
+    float y;
+};
 
 class Figure {
 public:
     Figure();
-    Figure(const char *texturePath, float x, float y, int w, int h, int animFrames, float walkSpeed);
+    Figure(const char *texturePath, PositionF f, int w, int h, int animFrames, float walkSpeed);
     ~Figure();
 
     void update();
@@ -17,7 +25,7 @@ public:
     void moveDown();
     void moveLeft();
     void moveRight();
-    void rotate(Position<float> otPos);
+    void rotate(Position otPos);
 
     float angle;
     Position pos;
@@ -29,7 +37,7 @@ protected:
     int w,h;
     double currentFrame;
     int animFrame;
-
     float walkSpeed;
+
 };
 #endif

@@ -1,11 +1,9 @@
 #include "../headers/Enemy.h"
-#include "../headers/Game.h"
-
 
 Enemy::Enemy() = default;
 
-Enemy::Enemy(const char *texturePath, float x, float y, int w, int h, int animFrames, float walkSpeed) :
-Figure(texturePath, x, y, w, h, animFrames, walkSpeed) {
+Enemy::Enemy(const char *texturePath, PositionF pos, int w, int h, int animFrames, float walkSpeed) :
+Figure(texturePath, pos, w, h, animFrames, walkSpeed) {
 
 }
 
@@ -14,7 +12,7 @@ Figure(texturePath, x, y, w, h, animFrames, walkSpeed) {
 Enemy::~Enemy() = default;
 
 
-void Enemy::update(Position<float> *player) {
+void Enemy::update(Position *player) {
     Figure::update();
     if(player->x<this->pos.x){
         moveLeft();

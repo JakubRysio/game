@@ -9,7 +9,7 @@ enum itemType{
 
 class Item {
 public:
-    Item(itemType type, Position<int>* pos);
+    Item(itemType type, Position* pos);
 private:
 };
 

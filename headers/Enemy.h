@@ -7,9 +7,9 @@
 class Enemy: public Figure{
 public:
     Enemy();
-    Enemy(const char *texturePath,float x, float y, int w, int h, int animFrames, float walkSpeed);
+    Enemy(const char *texturePath,PositionF pos, int w, int h, int animFrames, float walkSpeed);
     ~Enemy();
-    void update(Position<float>* player);
+    void update(Position* player);
 };
 
 #endif

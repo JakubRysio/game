@@ -4,8 +4,13 @@
 
 SDL_Renderer* Game::renderer= nullptr;
 
-Game::Game() = default;
-Game::~Game() = default;
+Game::Game() {
+
+}
+
+Game::~Game() {
+
+}
 
 void Game::init(const char *title, int x, int y, int width, int height, bool fullscreen) {
     int flags = 0;
@@ -29,16 +34,15 @@ void Game::init(const char *title, int x, int y, int width, int height, bool ful
         this->isRunning = true;
     }
     input = new Input();
-    this->player();
+    player = new Player();
     map = new Map();
-
-   this->enemy("../../sprites/enemy.png",1000,300,30,15, 3, 1);
+    enemy= new Enemy("../../sprites/enemy.png",PositionF{1000,300},30,15, 3, 1);
 }
 
 void Game::handleEvents() {
     input->beginNewFrame();
     while (SDL_PollEvent(&event)) {
-        SDL_GetMouseState(mPos.x, mPos.y);
+        SDL_GetMouseState(&mPos.x, &mPos.y);
         if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
             input->keyDownEvent(event);
         } else if (event.type == SDL_KEYUP) {
@@ -62,7 +66,7 @@ void Game::handleEvents() {
 
 void Game::update(){
     player->update();
-    enemy->update(player);
+    enemy->update(&player->pos);
 }
 
 void Game::render(){
@@ -70,10 +74,10 @@ void Game::render(){
     map->drawMap();
 
     player->render();
-    player->rotate(mPos.x,mPos.y);
+    player->rotate(mPos);
 
     enemy->render();
-    enemy->rotate(player->pos.x,player->pos.y);
+    enemy->rotate(player->pos);
 
     SDL_RenderPresent(renderer);
 }
@@ -99,3 +103,37 @@ SDL_Texture *Game::loadTexture(const char *filename) {
 void Game::simpleDraw(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest) {
     SDL_RenderCopy(Game::renderer, tex, &src, &dest);
 }
+
+Game *game = nullptr;
+int main(int argc, char *argv[]) {
+
+    const int FPS=60;
+    const int frameDelay = 1000/FPS;
+
+    Uint32 frameStart;
+    int frameTime;
+
+    game = new Game();
+
+    game->init("Game",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1280,720,false);
+
+    while (game->running()) {
+
+        frameStart=SDL_GetTicks();
+
+        game->handleEvents();
+        game->update();
+        game->render();
+
+        frameTime = SDL_GetTicks()-frameStart;
+
+        if(frameDelay > frameTime){
+            SDL_Delay(frameDelay-frameTime);
+        }
+    }
+
+    game->clean();
+    return 0;
+}
+
+

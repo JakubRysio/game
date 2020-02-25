@@ -8,17 +8,6 @@
 #include "Input.h"
 #include "Enemy.h"
 
-template<typename T>
-struct Position{
-public:
-    T x;
-    T y;
-    Position(){
-        x=0;
-        y=0;
-    }
-};
-
 class Game {
 public:
     Game();
@@ -36,14 +25,14 @@ public:
     static SDL_Texture* loadTexture(const char* filename);
     static void simpleDraw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest);
 
-    Position<int> mPos;
+    Position mPos;
 private:
     SDL_Event event;
     bool isRunning;
     SDL_Window *window;
-    Player player;
+    Player* player;
     Map* map;
     Input* input;
-    Enemy enemy;
+    Enemy* enemy;
 };
 #endif

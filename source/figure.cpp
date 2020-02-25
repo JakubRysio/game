@@ -1,15 +1,14 @@
 #include <cmath>
 #include "../headers/Figure.h"
-
+#include "../headers/Game.h"
 
 Figure::Figure() = default;
 
-Figure::Figure( const char *texturePath,float x, float y, int w, int h, int animFrames, float walkSpeed) {
+Figure::Figure( const char *texturePath, PositionF pos, int w, int h, int animFrames, float walkSpeed) {
     texture=Game::loadTexture(texturePath);
 
-    this->pos=Position<float>();
-    this->pos.x=x;
-    this->pos.y=y;
+    this->pos.x=pos.x;
+    this->pos.y=pos.y;
 
     this->animFrame=animFrames;
     this->currentFrame=0;
@@ -50,24 +49,26 @@ void Figure::animation() {
     this->srcR.x=30*floor(currentFrame);
 }
 
-void Figure::rotate(Position<float> otPos) {
-    Position<float> PosA;
-    PosA.x=this->pos.x+(this->desR.w/2);
-    PosA.y=this->pos.x+(this->desR.h/2);
-    float vecX = abs(PosA.x - otPos.x);
-    float vecY = abs(PosA.y - otPos.y);
+void Figure::rotate(Position otPos) {
+    PositionF posA;
+    PositionF vec;
+    posA.x=this->pos.x+(this->desR.w/2);
+    posA.y=this->pos.y+(this->desR.h/2);
+    vec.x = abs(posA.x - otPos.x);
+    vec.y = abs(posA.y - otPos.y);
 
-    float absVec = sqrt((vecX * vecX) + (vecY * vecY));
+    float absVec = sqrt((vec.x * vec.x) + (vec.y * vec.y));
 
-    float arcCos = (PosA.y * vecY) / (PosA.y * absVec);
+    float arcCos = (posA.y * vec.y) / (posA.y * absVec);
+
     float angle90= acos(arcCos) * 180 / 3.14;
-    if(PosA.x <= otPos.x && PosA.y >= otPos.y) {
+    if(posA.x <= otPos.x && posA.y >= otPos.y) {
         angle = angle90;
-    }else if(PosA.x <= otPos.x && PosA.y <= otPos.y) {
+    }else if(posA.x <= otPos.x && posA.y <= otPos.y) {
         angle = 180 - angle90;
-    }else if(PosA.x >= otPos.x && PosA.y <= otPos.y) {
+    }else if(posA.x >= otPos.x && posA.y <= otPos.y) {
         angle = angle90 + 180;
-    }else if(PosA.x >= otPos.x && PosA.y >= otPos.y) {
+    }else if(posA.x >= otPos.x && posA.y >= otPos.y) {
         angle = 360 - angle90;
     }
 }

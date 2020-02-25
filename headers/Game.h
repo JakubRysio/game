@@ -2,18 +2,29 @@
 #define GAME_GAME_H
 
 #include <SDL_render.h>
-#include "figure.h"
-#include "player.h"
+#include "Figure.h"
+#include "Player.h"
 #include "Map.h"
 #include "Input.h"
-#include "enemy.h"
+#include "Enemy.h"
+
+template<typename T>
+struct Position{
+public:
+    T x;
+    T y;
+    Position(){
+        x=0;
+        y=0;
+    }
+};
 
 class Game {
 public:
     Game();
     ~Game();
 
-    void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
+    void init(const char* title, int x, int y, int width, int height, bool fullscreen);
 
     void handleEvents();
     void update();
@@ -25,14 +36,14 @@ public:
     static SDL_Texture* loadTexture(const char* filename);
     static void simpleDraw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest);
 
-    int mX, mY;
+    Position<int> mPos;
 private:
     SDL_Event event;
     bool isRunning;
     SDL_Window *window;
-    Player* player;
+    Player player;
     Map* map;
     Input* input;
-    Enemy* enemy;
+    Enemy enemy;
 };
 #endif

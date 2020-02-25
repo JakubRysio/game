@@ -1,13 +1,13 @@
 #include <SDL.h>
 #include <SDL_image.h>
-#include "headers/game.h"
+#include "../headers/Game.h"
 
 SDL_Renderer* Game::renderer= nullptr;
 
 Game::Game() = default;
 Game::~Game() = default;
 
-void Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) {
+void Game::init(const char *title, int x, int y, int width, int height, bool fullscreen) {
     int flags = 0;
     if (fullscreen) {
         flags = SDL_WINDOW_FULLSCREEN;
@@ -16,7 +16,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
         //Subsystems initialised
 
-        this->window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
+        this->window = SDL_CreateWindow(title, x, y, width, height, flags);
         if (window) {
         //Window created
         }
@@ -24,21 +24,21 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         Game::renderer = SDL_CreateRenderer(this->window, -1, 0);
         if (Game::renderer) {
             SDL_SetRenderDrawColor(renderer, 255,255,255,255);
-//Renderer created
+        //Renderer created
         }
-
         this->isRunning = true;
     }
     input = new Input();
-    player = new Player();
+    this->player();
     map = new Map();
-    enemy = new Enemy("../../media/sprites/enemy.png",1000,300,30,15, 3, 1);
+
+   this->enemy("../../sprites/enemy.png",1000,300,30,15, 3, 1);
 }
 
 void Game::handleEvents() {
     input->beginNewFrame();
     while (SDL_PollEvent(&event)) {
-        SDL_GetMouseState(&mX, &mY);
+        SDL_GetMouseState(mPos.x, mPos.y);
         if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
             input->keyDownEvent(event);
         } else if (event.type == SDL_KEYUP) {
@@ -70,10 +70,10 @@ void Game::render(){
     map->drawMap();
 
     player->render();
-    player->rotate(mX,mY);
+    player->rotate(mPos.x,mPos.y);
 
     enemy->render();
-    enemy->rotate(player->xPos,player->yPos);
+    enemy->rotate(player->pos.x,player->pos.y);
 
     SDL_RenderPresent(renderer);
 }

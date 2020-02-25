@@ -3,11 +3,12 @@
 
 #include <SDL_render.h>
 #include <string>
+#include "Game.h"
 
 class Figure {
 public:
     Figure();
-    Figure(const char *texturePath,int x , int y, int w, int h, int animFrames, float walkSpeed);
+    Figure(const char *texturePath, float x, float y, int w, int h, int animFrames, float walkSpeed);
     ~Figure();
 
     void update();
@@ -16,10 +17,10 @@ public:
     void moveDown();
     void moveLeft();
     void moveRight();
-    void rotate(int x, int y);
+    void rotate(Position<float> otPos);
 
     float angle;
-    float xPos, yPos;
+    Position pos;
 protected:
     void animation();
 

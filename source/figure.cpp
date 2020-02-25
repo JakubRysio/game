@@ -1,19 +1,18 @@
-#include <SDL_image.h>
-#include "headers/figure.h"
-#include "headers/game.h"
 #include <cmath>
+#include "../headers/Figure.h"
 
 
 Figure::Figure() = default;
 
-Figure::Figure( const char *texturePath,int x, int y, int w, int h, int animFrames, float walkSpeed) {
+Figure::Figure( const char *texturePath,float x, float y, int w, int h, int animFrames, float walkSpeed) {
     texture=Game::loadTexture(texturePath);
+
+    this->pos=Position<float>();
+    this->pos.x=x;
+    this->pos.y=y;
 
     this->animFrame=animFrames;
     this->currentFrame=0;
-
-    this->xPos=x;
-    this->yPos=y;
 
     this->w=w;
     this->h=h;
@@ -35,8 +34,8 @@ Figure::~Figure() = default; //usuwanie obiektu z jakiegos kontenera na widoczne
 
 void Figure::update() {
 
-    this->desR.x= xPos;
-    this->desR.y= yPos;
+    this->desR.x= this->pos.x;
+    this->desR.y= this->pos.y;
 }
 
 void Figure::render() {
@@ -51,44 +50,46 @@ void Figure::animation() {
     this->srcR.x=30*floor(currentFrame);
 }
 
-void Figure::rotate(int x, int y) {
-    double xPosA=this->xPos+(this->desR.w/2);
-    double yPosA=this->yPos+(this->desR.h/2);
-    double vecX = abs(xPosA - x);
-    double vecY = abs(yPosA - y);
+void Figure::rotate(Position<float> otPos) {
+    Position<float> PosA;
+    PosA.x=this->pos.x+(this->desR.w/2);
+    PosA.y=this->pos.x+(this->desR.h/2);
+    float vecX = abs(PosA.x - otPos.x);
+    float vecY = abs(PosA.y - otPos.y);
 
-    double absVec = sqrt((vecX * vecX) + (vecY * vecY));
+    float absVec = sqrt((vecX * vecX) + (vecY * vecY));
 
-    double arcCos = (yPosA * vecY) / (yPosA * absVec);
-    double angle90= acos(arcCos) * 180 / 3.14;
-    if(xPosA<=x&&yPosA>=y) {
+    float arcCos = (PosA.y * vecY) / (PosA.y * absVec);
+    float angle90= acos(arcCos) * 180 / 3.14;
+    if(PosA.x <= otPos.x && PosA.y >= otPos.y) {
         angle = angle90;
-    }else if(xPosA<=x&&yPosA<=y) {
+    }else if(PosA.x <= otPos.x && PosA.y <= otPos.y) {
         angle = 180 - angle90;
-    }else if(xPosA>=x&&yPosA<=y) {
+    }else if(PosA.x >= otPos.x && PosA.y <= otPos.y) {
         angle = angle90 + 180;
-    }else if(xPosA>=x&&yPosA>=y) {
+    }else if(PosA.x >= otPos.x && PosA.y >= otPos.y) {
         angle = 360 - angle90;
     }
 }
 
 void Figure::moveUp() {
-    yPos-=walkSpeed;
+    this->pos.y-=walkSpeed;
     this->animation();
 }
 
 void Figure::moveDown() {
-    yPos+=walkSpeed;
+    this->pos.y+=walkSpeed;
     this->animation();
 }
 
 void Figure::moveLeft() {
-    xPos-=walkSpeed;
+    this->pos.x-=walkSpeed;
     this->animation();
 }
 
 void Figure::moveRight() {
-    xPos+=walkSpeed;
+    this->pos.x+=walkSpeed;
     this->animation();
 }
+
 

@@ -1,4 +1,4 @@
-#include "headers/Input.h"
+#include "../headers/Input.h"
 
 //clears maps after every new frame
 void Input::beginNewFrame() {

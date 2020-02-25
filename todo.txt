@@ -1,0 +1,3 @@
+implement /handle, /sword, hp, stamina, "game dependance to realtime, not FPS"
+add collision, menu, "map editor"
+maps bigger than screen and moving around

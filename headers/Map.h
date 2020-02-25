@@ -8,7 +8,7 @@ class Map {
 public:
     Map();
     ~Map();
-    void loadMap(int arr[32][18]);
+    void loadMap(int arr[320][180]);
     void drawMap();
 
 private:

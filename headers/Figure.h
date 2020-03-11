@@ -3,7 +3,6 @@
 
 #include <SDL_render.h>
 #include <string>
-
 struct Position{
     int x;
     int y;
@@ -29,15 +28,15 @@ public:
 
     float angle;
     Position pos;
+    int w,h;
+    float walkSpeed;
 protected:
     void animation();
 
     SDL_Rect srcR{}, desR{};
     SDL_Texture* texture;
-    int w,h;
     double currentFrame;
     int animFrame;
-    float walkSpeed;
 
 };
 #endif

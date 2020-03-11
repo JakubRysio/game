@@ -8,12 +8,12 @@
 #include "Input.h"
 #include "Enemy.h"
 
+
 class Game {
 public:
     Game();
+    Game(const char *title, int x, int y, int width, int height, bool fullscreen);
     ~Game();
-
-    void init(const char* title, int x, int y, int width, int height, bool fullscreen);
 
     void handleEvents();
     void update();
@@ -26,6 +26,7 @@ public:
     static void simpleDraw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest);
 
     Position mPos;
+    int w,h;
 private:
     SDL_Event event;
     bool isRunning;

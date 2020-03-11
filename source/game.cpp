@@ -8,11 +8,9 @@ Game::Game() {
 
 }
 
-Game::~Game() {
-
-}
-
-void Game::init(const char *title, int x, int y, int width, int height, bool fullscreen) {
+Game::Game(const char *title, int x, int y, int width, int height, bool fullscreen) {
+    this->w=width;
+    this->h=height;
     int flags = 0;
     if (fullscreen) {
         flags = SDL_WINDOW_FULLSCREEN;
@@ -23,13 +21,13 @@ void Game::init(const char *title, int x, int y, int width, int height, bool ful
 
         this->window = SDL_CreateWindow(title, x, y, width, height, flags);
         if (window) {
-        //Window created
+            //Window created
         }
 
         Game::renderer = SDL_CreateRenderer(this->window, -1, 0);
         if (Game::renderer) {
             SDL_SetRenderDrawColor(renderer, 255,255,255,255);
-        //Renderer created
+            //Renderer created
         }
         this->isRunning = true;
     }
@@ -37,6 +35,10 @@ void Game::init(const char *title, int x, int y, int width, int height, bool ful
     player = new Player();
     map = new Map();
     enemy= new Enemy("../../sprites/enemy.png",PositionF{1000,300},30,15, 3, 1);
+}
+
+Game::~Game() {
+
 }
 
 void Game::handleEvents() {
@@ -52,15 +54,23 @@ void Game::handleEvents() {
             this->isRunning = false;
         }
     }
-    if(input->isKeyHeld(SDL_SCANCODE_W)){
-        this->player->moveUp();
+    if(input->isKeyHeld(SDL_SCANCODE_W)) {
+        if (player->pos.y > 100) {
+            this->player->moveUp();
+        } else this->map->moveUp();
     }else if(input->isKeyHeld(SDL_SCANCODE_S)){
-        this->player->moveDown();
+        if(player->pos.y<620)
+            this->player->moveDown();
+        else this->map->moveDown();
     }
     if(input->isKeyHeld(SDL_SCANCODE_A)){
-        this->player->moveLeft();
+        if(player->pos.x>100)
+            this->player->moveLeft();
+        else this->map->moveLeft();
     }else if(input->isKeyHeld(SDL_SCANCODE_D)){
-        this->player->moveRight();
+        if(player->pos.x<1180)
+            this->player->moveRight();
+        else this->map->moveRight();
     }
 }
 
@@ -113,9 +123,7 @@ int main(int argc, char *argv[]) {
     Uint32 frameStart;
     int frameTime;
 
-    game = new Game();
-
-    game->init("Game",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1280,720,false);
+    game = new Game("Game",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1280,720,false);
 
     while (game->running()) {
 

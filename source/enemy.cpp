@@ -2,8 +2,8 @@
 
 Enemy::Enemy() = default;
 
-Enemy::Enemy(const char *texturePath, PositionF pos, int w, int h, int animFrames, float walkSpeed) :
-Figure(texturePath, pos, w, h, animFrames, walkSpeed) {
+Enemy::Enemy(const char *texturePath, PositionF pos, int w, int h, int animFrames, float walkSpeed, int hp) :
+Figure(texturePath, pos, w, h, animFrames, walkSpeed, hp) {
 
 }
 

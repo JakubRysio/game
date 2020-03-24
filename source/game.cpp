@@ -34,7 +34,7 @@ Game::Game(const char *title, int x, int y, int width, int height, bool fullscre
     input = new Input();
     player = new Player();
     map = new Map();
-    enemy= new Enemy("../../sprites/enemy.png",PositionF{1000,300},30,15, 3, 1);
+    enemy= new Enemy("../../sprites/enemy.png",PositionF{1000,300},30,15, 3, 1, 500);
 }
 
 Game::~Game() {

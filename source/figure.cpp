@@ -4,7 +4,7 @@
 
 Figure::Figure() = default;
 
-Figure::Figure( const char *texturePath, PositionF pos, int w, int h, int animFrames, float walkSpeed) {
+Figure::Figure( const char *texturePath, PositionF pos, int w, int h, int animFrames, float walkSpeed, int HPval) {
     texture=Game::loadTexture(texturePath);
 
     this->pos.x=pos.x;
@@ -27,6 +27,8 @@ Figure::Figure( const char *texturePath, PositionF pos, int w, int h, int animFr
     this->desR.h=this->srcR.h*3;
 
     this->walkSpeed=walkSpeed;
+
+    hp=HPbar(HPval);
 }
 
 Figure::~Figure() = default; //usuwanie obiektu z jakiegos kontenera na widoczne obiekty itd?

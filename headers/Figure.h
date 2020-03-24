@@ -3,6 +3,8 @@
 
 #include <SDL_render.h>
 #include <string>
+#include "HPbar.h"
+
 struct Position{
     int x;
     int y;
@@ -15,7 +17,7 @@ struct PositionF{
 class Figure {
 public:
     Figure();
-    Figure(const char *texturePath, PositionF f, int w, int h, int animFrames, float walkSpeed);
+    Figure(const char *texturePath, PositionF f, int w, int h, int animFrames, float walkSpeed, int HP);
     ~Figure();
 
     void update();
@@ -37,6 +39,6 @@ protected:
     SDL_Texture* texture;
     double currentFrame;
     int animFrame;
-
+    HPbar hp;
 };
 #endif

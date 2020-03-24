@@ -55,22 +55,18 @@ void Game::handleEvents() {
         }
     }
     if(input->isKeyHeld(SDL_SCANCODE_W)) {
-        if (player->pos.y > 100) {
+        if (player->pos.y > 0)
             this->player->moveUp();
-        } else this->map->moveUp();
     }else if(input->isKeyHeld(SDL_SCANCODE_S)){
-        if(player->pos.y<620)
+        if(player->pos.y<(720-2*player->h))
             this->player->moveDown();
-        else this->map->moveDown();
     }
     if(input->isKeyHeld(SDL_SCANCODE_A)){
-        if(player->pos.x>100)
+        if(player->pos.x>(-player->w))
             this->player->moveLeft();
-        else this->map->moveLeft();
     }else if(input->isKeyHeld(SDL_SCANCODE_D)){
-        if(player->pos.x<1180)
+        if(player->pos.x<(1280-2*player->w))
             this->player->moveRight();
-        else this->map->moveRight();
     }
 }
 

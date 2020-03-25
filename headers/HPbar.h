@@ -6,7 +6,7 @@ class HPbar {
 public:
     HPbar();
     HPbar(int value);
-
+    bool isAlive();
 private:
     int hp;
 };

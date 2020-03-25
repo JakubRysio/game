@@ -32,6 +32,8 @@ public:
     Position pos;
     int w,h;
     float walkSpeed;
+    HPbar hp;
+    bool checkcollision(Figure* another);
 protected:
     void animation();
 
@@ -39,6 +41,5 @@ protected:
     SDL_Texture* texture;
     double currentFrame;
     int animFrame;
-    HPbar hp;
 };
 #endif

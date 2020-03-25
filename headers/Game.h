@@ -27,6 +27,7 @@ public:
 
     Position mPos;
     int w,h;
+
 private:
     SDL_Event event;
     bool isRunning;
@@ -34,6 +35,7 @@ private:
     Player* player;
     Map* map;
     Input* input;
-    Enemy* enemy;
+    int maxE;
+    Enemy** enemies;
 };
 #endif

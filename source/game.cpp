@@ -34,7 +34,12 @@ Game::Game(const char *title, int x, int y, int width, int height, bool fullscre
     input = new Input();
     player = new Player();
     map = new Map();
-    enemy= new Enemy("../../sprites/enemy.png",PositionF{1000,300},30,15, 3, 1, 500);
+    enemies = new Enemy*[maxE];
+    for(int i=0; i<maxE; i++){
+        enemies[i] = new Enemy();
+        enemies[i] = nullptr;
+    }
+    enemies[0] = new Enemy("../../sprites/enemy.png",PositionF{1000,300},30,15, 3, 1, 500);
 }
 
 Game::~Game() {
@@ -54,25 +59,27 @@ void Game::handleEvents() {
             this->isRunning = false;
         }
     }
-    if(input->isKeyHeld(SDL_SCANCODE_W)) {
+    if (input->isKeyHeld(SDL_SCANCODE_W)) {
         if (player->pos.y > 0)
             this->player->moveUp();
-    }else if(input->isKeyHeld(SDL_SCANCODE_S)){
-        if(player->pos.y<(720-2*player->h))
+    } else if (input->isKeyHeld(SDL_SCANCODE_S)) {
+        if (player->pos.y < (720 - 2 * player->h))
             this->player->moveDown();
     }
-    if(input->isKeyHeld(SDL_SCANCODE_A)){
-        if(player->pos.x>(-player->w))
+    if (input->isKeyHeld(SDL_SCANCODE_A)) {
+        if (player->pos.x > (-player->w))
             this->player->moveLeft();
-    }else if(input->isKeyHeld(SDL_SCANCODE_D)){
-        if(player->pos.x<(1280-2*player->w))
+    } else if (input->isKeyHeld(SDL_SCANCODE_D)) {
+        if (player->pos.x < (1280 - 2 * player->w))
             this->player->moveRight();
     }
 }
 
 void Game::update(){
     player->update();
-    enemy->update(&player->pos);
+    for(int i=0; i<(sizeof(enemies)/sizeof(*enemies)); i++) {
+        if(enemies[i]!=0) enemies[i]->update(&player->pos);
+    }
 }
 
 void Game::render(){
@@ -82,9 +89,12 @@ void Game::render(){
     player->render();
     player->rotate(mPos);
 
-    enemy->render();
-    enemy->rotate(player->pos);
-
+    for(int i=0; i<(sizeof(enemies)/sizeof(*enemies)); i++) {
+        if (enemies[i] != 0) {
+            enemies[i]->render();
+            enemies[i]->rotate(player->pos);
+        }
+    }
     SDL_RenderPresent(renderer);
 }
 

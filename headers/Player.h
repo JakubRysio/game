@@ -7,7 +7,6 @@ class Player: public Figure {
 public:
     Player();
     ~Player();
-
 };
 
 #endif

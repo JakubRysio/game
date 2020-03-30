@@ -28,7 +28,7 @@ Figure::Figure( const char *texturePath, PositionF pos, int w, int h, int animFr
 
     this->walkSpeed=walkSpeed;
 
-    hp=HPbar(HPval);
+    //hp=HPbar(HPval);
 }
 
 Figure::~Figure() = default; //usuwanie obiektu z jakiegos kontenera na widoczne obiekty itd?

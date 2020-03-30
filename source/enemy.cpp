@@ -7,10 +7,7 @@ Figure(texturePath, pos, w, h, animFrames, walkSpeed, hp) {
 
 }
 
-
-
 Enemy::~Enemy() = default;
-
 
 void Enemy::update(Position *player) {
     Figure::update();

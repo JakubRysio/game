@@ -3,7 +3,6 @@
 
 #include <SDL_render.h>
 #include <string>
-#include "HPbar.h"
 
 struct Position{
     int x;
@@ -32,8 +31,8 @@ public:
     Position pos;
     int w,h;
     float walkSpeed;
-    HPbar hp;
-    bool checkcollision(Figure* another);
+    //HPbar hp;
+    //bool checkcollision(Figure* another);
 protected:
     void animation();
 
